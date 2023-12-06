@@ -98,7 +98,8 @@ final class OrderTests: XCTestCase {
             
             let failed = try await acme.orders.validateChallenges(from: order, preferring: .dns)
             guard failed.count == 0 else {
-                fatalError("Some validations failed! \(failed)")
+                XCTFail("Some validations failed! \(failed)")
+                return
             }
             try await acme.orders.refresh(&order)
             print("\n => order: \(toJson(order))")
