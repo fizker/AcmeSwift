@@ -41,7 +41,9 @@ extension AcmeSwift {
 
             let ep = GetOrderEndpoint(url: url)
             var (info, headers) = try await self.client.run(ep, privateKey: self.client.login!.key, accountURL: client.accountURL!)
-            info.url = URL(string: headers["Location"].first ?? "")
+            // The Location header does not always return an URL. In that case,
+            // the URL that contains the data will be assumed to be the correct URL.
+            info.url = URL(string: headers["Location"].first ?? "") ?? url
             return info
         }
         
