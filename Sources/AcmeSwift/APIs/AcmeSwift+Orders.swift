@@ -58,6 +58,19 @@ extension AcmeSwift {
             }
             order = try await get(url: url)
         }
+
+        /// Fetches the latest information about an existing Order.
+        /// - Parameters:
+        ///   - order: an existing Order object to be updated.
+        /// - Returns: Returns the refreshed ``AcmeOrderInfo``.
+        public func refresh(_ order: AcmeOrderInfo) async throws -> AcmeOrderInfo {
+            try await self.client.ensureLoggedIn()
+
+            guard let url = order.url else {
+                throw AcmeError.noResourceUrl
+            }
+            return try await get(url: url)
+        }
         
         
         /// Creates an Order for obtaining a new certificate.
