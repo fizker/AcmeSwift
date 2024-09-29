@@ -327,7 +327,7 @@ extension AcmeSwift {
             guard let login = self.client.login else {
                 throw AcmeError.mustBeAuthenticated("\(AcmeSwift.self).init() must be called with an \(AccountCredentials.self)")
             }
-            let pubKey = try JWTKit.ECDSAKey.public(pem: login.key.publicKey.pemRepresentation)
+            let pubKey = try JWTKit.ECDSA.PublicKey<P256>(backing: login.key.publicKey)
             guard let parameters = pubKey.parameters else {
                 throw AcmeError.invalidKeyError("Public key parameters are nil")
             }
